@@ -1,32 +1,36 @@
+import java.util.*;
+
 /**
  * =============================================================================
- * SERVICE CLASS - PalindromeService
+ * STRATEGY INTERFACE
  * =============================================================================
- * Encapsulates the core logic for palindrome validation.
  */
-class PalindromeService {
+interface PalindromeStrategy {
+    boolean isValid(String input);
+}
 
-    /**
-     * Checks if a string is a palindrome.
-     * This method is reusable by any part of the application.
-     */
-    public boolean check(String input) {
-        if (input == null || input.isEmpty()) {
-            return false;
+/**
+ * STRATEGY 1: Stack-Based
+ */
+class StackStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : input.toCharArray()) stack.push(c);
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) return false;
         }
+        return true;
+    }
+}
 
-        // Normalize string (handling case and non-alphanumeric characters)
-        String clean = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-
-        int start = 0;
-        int end = clean.length() - 1;
-
+/**
+ * STRATEGY 2: Two-Pointer / Array-Based
+ */
+class ArrayStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        int start = 0, end = input.length() - 1;
         while (start < end) {
-            if (clean.charAt(start) != clean.charAt(end)) {
-                return false;
-            }
-            start++;
-            end--;
+            if (input.charAt(start++) != input.charAt(end--)) return false;
         }
         return true;
     }
@@ -34,28 +38,26 @@ class PalindromeService {
 
 /**
  * =============================================================================
- * MAIN CLASS - UseCase11PalindromeCheckerApp
+ * MAIN CLASS - UseCase12PalindromeCheckerApp
  * =============================================================================
- * * Use Case 11: Object-Oriented Palindrome Service
- * * Description:
- * This class demonstrates Encapsulation by delegating logic
- * to a separate service class.
+ * * Use Case 12: Strategy Pattern (Advanced)
+ * * Description: Demonstrates switching algorithms dynamically at runtime.
  * * @author Coder-015
- * @version 11.0
+ * @version 12.0
  */
 public class App {
-
     public static void main(String[] args) {
-        // Instantiate the service object
-        PalindromeService service = new PalindromeService();
+        String word = "kayak";
 
-        String testString = "Race Car";
+        // Context decides which strategy to use at runtime
+        PalindromeStrategy strategy;
 
-        // Use the service to check the palindrome
-        boolean result = service.check(testString);
+        // Using Stack Strategy
+        strategy = new StackStrategy();
+        System.out.println("Using Stack: " + strategy.isValid(word));
 
-        // Display results
-        System.out.println("Input        : " + testString);
-        System.out.println("Is Palindrome: " + result);
+        // Switching to Array Strategy dynamically
+        strategy = new ArrayStrategy();
+        System.out.println("Using Array: " + strategy.isValid(word));
     }
 }
