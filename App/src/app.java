@@ -1,20 +1,61 @@
-public class app {
-    public static boolean isPalindrome(String s) {
-   // Create a StringBuilder with the original string
-       StringBuilder reversed = new StringBuilder(s);
-       // Reverse the StringBuilder and convert it back to a String
-        reversed.reverse();
-        String reversedString = reversed.toString();
-        // Compare the original string with the reversed one
-        // Use equals() for case-sensitive comparison, or equalsIgnoreCase() for case-insensitive
-        return s.equals(reversedString);
-    }
+import java.util.Stack;
 
+/**
+ * ==========================================================
+ *  MAIN CLASS - UseCase5PalindromeCheckerApp
+ * ==========================================================
+ *
+ * Use Case 5: Stack Based Palindrome Checker
+ *
+ * Description:
+ * This class validates a palindrome using a Stack
+ * data structure which follows the LIFO principle.
+ *
+ * Application Flow:
+ * - Pushes characters into a stack
+ * - Pops them in reverse order
+ * - Compares with original sequence
+ * - Displays the result
+ *
+ * @author Coder-015
+ * @version 5.0
+ */
+
+public class App {
+
+    /**
+     * Application entry point for UC5.
+     * @param args Command-line arguments
+     */
     public static void main(String[] args) {
-        String testString1 = "madam";
-        String testString2 = "world";
 
-        System.out.println(testString1 + " is a palindrome: " + isPalindrome(testString1));
-        System.out.println(testString2 + " is a palindrome: " + isPalindrome(testString2));
+        // Declare and initialize the input string
+        String input = "noon";
+
+        // Create a Stack to store characters
+        Stack<Character> stack = new Stack<>();
+
+        // Push each character of the string into the stack
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Assume palindrome initially
+        boolean isPalindrome = true;
+
+        // Iterate again through original string
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        // Display result
+        if (isPalindrome) {
+            System.out.println(input + " is a Palindrome.");
+        } else {
+            System.out.println(input + " is NOT a Palindrome.");
+        }
     }
 }
