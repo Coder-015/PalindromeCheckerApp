@@ -1,20 +1,52 @@
-public class app {
-    public static boolean isPalindrome(String s) {
-   // Create a StringBuilder with the original string
-       StringBuilder reversed = new StringBuilder(s);
-       // Reverse the StringBuilder and convert it back to a String
-        reversed.reverse();
-        String reversedString = reversed.toString();
-        // Compare the original string with the reversed one
-        // Use equals() for case-sensitive comparison, or equalsIgnoreCase() for case-insensitive
-        return s.equals(reversedString);
-    }
+import java.util.ArrayDeque;
+import java.util.Deque;
 
+/**
+ * =============================================================================
+ * MAIN CLASS - UseCase7PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 7: Deque-Based Optimized Palindrome Checker
+ * * Description:
+ * This class uses a Deque to compare front and rear elements
+ * for an optimized palindrome check.
+ * * * At this stage, the application:
+ * - Inserts characters into a Deque
+ * - Removes from both ends simultaneously
+ * - Compares characters until the Deque is empty or 1 element remains
+ * * * @author Coder-015
+ * @version 7.0
+ */
+public class App {
+
+    /**
+     * Application entry point for UC7.
+     * * @param args Command-line arguments
+     */
     public static void main(String[] args) {
-        String testString1 = "madam";
-        String testString2 = "world";
+        // Define the input string
+        String input = "racecar";
 
-        System.out.println(testString1 + " is a palindrome: " + isPalindrome(testString1));
-        System.out.println(testString2 + " is a palindrome: " + isPalindrome(testString2));
+        // Create a Deque to store characters
+        Deque<Character> deque = new ArrayDeque<>();
+
+        // Insert characters into the deque
+        for (char c : input.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        boolean isPalindrome = true;
+
+        // Compare front and rear until deque is empty or has one element
+        while (deque.size() > 1) {
+            // Remove first and last characters and compare
+            if (!deque.removeFirst().equals(deque.removeLast())) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        // Display the result
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
