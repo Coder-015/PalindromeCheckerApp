@@ -1,20 +1,52 @@
-public class app {
-    public static boolean isPalindrome(String s) {
-   // Create a StringBuilder with the original string
-       StringBuilder reversed = new StringBuilder(s);
-       // Reverse the StringBuilder and convert it back to a String
-        reversed.reverse();
-        String reversedString = reversed.toString();
-        // Compare the original string with the reversed one
-        // Use equals() for case-sensitive comparison, or equalsIgnoreCase() for case-insensitive
-        return s.equals(reversedString);
+/**
+ * =============================================================================
+ * MAIN CLASS - UseCase9PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 9: Recursive Palindrome Checker
+ * * Description:
+ * This class validates a palindrome using recursion, where the function
+ * calls itself to check smaller versions of the original string.
+ * * At this stage, the application:
+ * - Uses a recursive method to compare start and end characters
+ * - Defines a base condition to terminate recursion
+ * - Utilizes the JVM Call Stack for method execution
+ * * @author Coder-015
+ * @version 9.0
+ */
+public class App {
+
+    /**
+     * Application entry point for UC9.
+     * * @param args Command-line arguments
+     */
+    public static void main(String[] args) {
+        // Define the input string
+        String input = "deified";
+
+        // Call the recursive function
+        boolean isPalindrome = isPalindromeRecursive(input, 0, input.length() - 1);
+
+        // Display the result
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 
-    public static void main(String[] args) {
-        String testString1 = "madam";
-        String testString2 = "world";
+    /**
+     * Recursive method to check if a string is a palindrome.
+     * Recursive call compares start & end characters.
+     */
+    private static boolean isPalindromeRecursive(String str, int start, int end) {
+        // Base condition: if pointers cross, it's a palindrome
+        if (start >= end) {
+            return true;
+        }
 
-        System.out.println(testString1 + " is a palindrome: " + isPalindrome(testString1));
-        System.out.println(testString2 + " is a palindrome: " + isPalindrome(testString2));
+        // Check if characters at current positions match
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+
+        // Recursive call: move pointers inward
+        return isPalindromeRecursive(str, start + 1, end - 1);
     }
 }
