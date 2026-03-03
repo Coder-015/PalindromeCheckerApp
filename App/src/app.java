@@ -1,20 +1,54 @@
-public class app {
-    public static boolean isPalindrome(String s) {
-   // Create a StringBuilder with the original string
-       StringBuilder reversed = new StringBuilder(s);
-       // Reverse the StringBuilder and convert it back to a String
-        reversed.reverse();
-        String reversedString = reversed.toString();
-        // Compare the original string with the reversed one
-        // Use equals() for case-sensitive comparison, or equalsIgnoreCase() for case-insensitive
-        return s.equals(reversedString);
-    }
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
+/**
+ * =============================================================================
+ * MAIN CLASS - UseCase6PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 6: Queue + Stack Fairness Check
+ * * Description:
+ * This class demonstrates palindrome validation using
+ * two different data structures to show FIFO vs LIFO behaviors.
+ * * At this stage, the application:
+ * - Enqueues characters into a Queue (FIFO)
+ * - Pushes characters into a Stack (LIFO)
+ * - Compares dequeue vs pop outputs
+ * * If all characters match, the input is a palindrome.
+ * * @author Coder-015
+ * @version 6.0
+ */
+public class App {
+
+    /**
+     * Application entry point for UC6.
+     * * @param args Command-line arguments
+     */
     public static void main(String[] args) {
-        String testString1 = "madam";
-        String testString2 = "world";
 
-        System.out.println(testString1 + " is a palindrome: " + isPalindrome(testString1));
-        System.out.println(testString2 + " is a palindrome: " + isPalindrome(testString2));
+        String input = "civic";
+
+        Queue<Character> queue = new LinkedList<>();
+
+
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : input.toCharArray()) {
+            queue.add(c);
+            stack.push(c);
+        }
+
+        boolean isPalindrome = true;
+
+        while (!queue.isEmpty()) {
+            if (!queue.remove().equals(stack.pop())) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        //  Display results
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
