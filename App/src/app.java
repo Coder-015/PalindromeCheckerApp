@@ -1,20 +1,55 @@
-public class app {
-    public static boolean isPalindrome(String s) {
-   // Create a StringBuilder with the original string
-       StringBuilder reversed = new StringBuilder(s);
-       // Reverse the StringBuilder and convert it back to a String
-        reversed.reverse();
-        String reversedString = reversed.toString();
-        // Compare the original string with the reversed one
-        // Use equals() for case-sensitive comparison, or equalsIgnoreCase() for case-insensitive
-        return s.equals(reversedString);
-    }
+/**
+ * =============================================================================
+ * MAIN CLASS - UseCase13PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 13: Performance Comparison
+ * * Description:
+ * This class measures and compares the execution time of different
+ * palindrome checking algorithms.
+ * * At this stage, the application:
+ * - Executes multiple algorithms (Array-based vs. Stack-based)
+ * - Captures start and end times using System.nanoTime()
+ * - Displays the time taken for each approach
+ * * @author Coder-015
+ * @version 13.0
+ */
+public class App {
 
     public static void main(String[] args) {
-        String testString1 = "madam";
-        String testString2 = "world";
+        String testInput = "racecar".repeat(1000); // Larger string for measurable results
 
-        System.out.println(testString1 + " is a palindrome: " + isPalindrome(testString1));
-        System.out.println(testString2 + " is a palindrome: " + isPalindrome(testString2));
+        // --- Benchmark 1: Array-Based Logic ---
+        long startArray = System.nanoTime();
+        checkArray(testInput);
+        long endArray = System.nanoTime();
+        long durationArray = endArray - startArray;
+
+        // --- Benchmark 2: Stack-Based Logic ---
+        long startStack = System.nanoTime();
+        checkStack(testInput);
+        long endStack = System.nanoTime();
+        long durationStack = endStack - startStack;
+
+        // Display results
+        System.out.println("Performance Comparison Results:");
+        System.out.println("Array-Based Time: " + durationArray + " nanoseconds");
+        System.out.println("Stack-Based Time: " + durationStack + " nanoseconds");
+    }
+
+    private static boolean checkArray(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i++) != s.charAt(j--)) return false;
+        }
+        return true;
+    }
+
+    private static boolean checkStack(String s) {
+        java.util.Stack<Character> stack = new java.util.Stack<>();
+        for (char c : s.toCharArray()) stack.push(c);
+        for (char c : s.toCharArray()) {
+            if (c != stack.pop()) return false;
+        }
+        return true;
     }
 }
