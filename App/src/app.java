@@ -1,63 +1,55 @@
-import java.util.*;
-
 /**
  * =============================================================================
- * STRATEGY INTERFACE
+ * MAIN CLASS - UseCase13PalindromeCheckerApp
  * =============================================================================
+ * * Use Case 13: Performance Comparison
+ * * Description:
+ * This class measures and compares the execution time of different
+ * palindrome checking algorithms.
+ * * At this stage, the application:
+ * - Executes multiple algorithms (Array-based vs. Stack-based)
+ * - Captures start and end times using System.nanoTime()
+ * - Displays the time taken for each approach
+ * * @author Coder-015
+ * @version 13.0
  */
-interface PalindromeStrategy {
-    boolean isValid(String input);
-}
+public class App {
 
-/**
- * STRATEGY 1: Stack-Based
- */
-class StackStrategy implements PalindromeStrategy {
-    public boolean isValid(String input) {
-        Stack<Character> stack = new Stack<>();
-        for (char c : input.toCharArray()) stack.push(c);
-        for (char c : input.toCharArray()) {
+    public static void main(String[] args) {
+        String testInput = "racecar".repeat(1000); // Larger string for measurable results
+
+        // --- Benchmark 1: Array-Based Logic ---
+        long startArray = System.nanoTime();
+        checkArray(testInput);
+        long endArray = System.nanoTime();
+        long durationArray = endArray - startArray;
+
+        // --- Benchmark 2: Stack-Based Logic ---
+        long startStack = System.nanoTime();
+        checkStack(testInput);
+        long endStack = System.nanoTime();
+        long durationStack = endStack - startStack;
+
+        // Display results
+        System.out.println("Performance Comparison Results:");
+        System.out.println("Array-Based Time: " + durationArray + " nanoseconds");
+        System.out.println("Stack-Based Time: " + durationStack + " nanoseconds");
+    }
+
+    private static boolean checkArray(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i++) != s.charAt(j--)) return false;
+        }
+        return true;
+    }
+
+    private static boolean checkStack(String s) {
+        java.util.Stack<Character> stack = new java.util.Stack<>();
+        for (char c : s.toCharArray()) stack.push(c);
+        for (char c : s.toCharArray()) {
             if (c != stack.pop()) return false;
         }
         return true;
-    }
-}
-
-/**
- * STRATEGY 2: Two-Pointer / Array-Based
- */
-class ArrayStrategy implements PalindromeStrategy {
-    public boolean isValid(String input) {
-        int start = 0, end = input.length() - 1;
-        while (start < end) {
-            if (input.charAt(start++) != input.charAt(end--)) return false;
-        }
-        return true;
-    }
-}
-
-/**
- * =============================================================================
- * MAIN CLASS - UseCase12PalindromeCheckerApp
- * =============================================================================
- * * Use Case 12: Strategy Pattern (Advanced)
- * * Description: Demonstrates switching algorithms dynamically at runtime.
- * * @author Coder-015
- * @version 12.0
- */
-public class App {
-    public static void main(String[] args) {
-        String word = "kayak";
-
-        // Context decides which strategy to use at runtime
-        PalindromeStrategy strategy;
-
-        // Using Stack Strategy
-        strategy = new StackStrategy();
-        System.out.println("Using Stack: " + strategy.isValid(word));
-
-        // Switching to Array Strategy dynamically
-        strategy = new ArrayStrategy();
-        System.out.println("Using Array: " + strategy.isValid(word));
     }
 }
