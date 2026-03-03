@@ -1,55 +1,61 @@
 /**
  * =============================================================================
- * MAIN CLASS - UseCase10PalindromeCheckerApp
+ * SERVICE CLASS - PalindromeService
  * =============================================================================
- * * Use Case 10: Case-Insensitive & Space-Ignored Palindrome
+ * Encapsulates the core logic for palindrome validation.
+ */
+class PalindromeService {
+
+    /**
+     * Checks if a string is a palindrome.
+     * This method is reusable by any part of the application.
+     */
+    public boolean check(String input) {
+        if (input == null || input.isEmpty()) {
+            return false;
+        }
+
+        // Normalize string (handling case and non-alphanumeric characters)
+        String clean = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        int start = 0;
+        int end = clean.length() - 1;
+
+        while (start < end) {
+            if (clean.charAt(start) != clean.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
+
+/**
+ * =============================================================================
+ * MAIN CLASS - UseCase11PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 11: Object-Oriented Palindrome Service
  * * Description:
- * This class handles real-world sentences by ignoring case and removing
- * spaces/special characters before performing the palindrome check.
- * * At this stage, the application:
- * - Normalizes input using Regular Expressions (Regex)
- * - Converts all characters to lowercase
- * - Performs validation on the "cleaned" string
+ * This class demonstrates Encapsulation by delegating logic
+ * to a separate service class.
  * * @author Coder-015
- * @version 10.0
+ * @version 11.0
  */
 public class App {
 
-    /**
-     * Application entry point for UC10.
-     * * @param args Command-line arguments
-     */
     public static void main(String[] args) {
-        // Define the input string with spaces and mixed case
-        String input = "A man a plan a canal Panama";
+        // Instantiate the service object
+        PalindromeService service = new PalindromeService();
 
-        // Normalize the string:
-        // 1. Replace all non-alphanumeric characters with an empty string
-        // 2. Convert the result to lowercase
-        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        String testString = "Race Car";
 
-        boolean isPalindrome = checkPalindrome(normalized);
+        // Use the service to check the palindrome
+        boolean result = service.check(testString);
 
-        // Display the results
-        System.out.println("Original Input : " + input);
-        System.out.println("Normalized     : " + normalized);
-        System.out.println("Is Palindrome? : " + isPalindrome);
-    }
-
-    /**
-     * Standard two-pointer validation logic
-     */
-    private static boolean checkPalindrome(String str) {
-        int left = 0;
-        int right = str.length() - 1;
-
-        while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
+        // Display results
+        System.out.println("Input        : " + testString);
+        System.out.println("Is Palindrome: " + result);
     }
 }
