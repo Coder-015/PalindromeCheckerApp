@@ -1,52 +1,55 @@
 /**
  * =============================================================================
- * MAIN CLASS - UseCase9PalindromeCheckerApp
+ * MAIN CLASS - UseCase10PalindromeCheckerApp
  * =============================================================================
- * * Use Case 9: Recursive Palindrome Checker
+ * * Use Case 10: Case-Insensitive & Space-Ignored Palindrome
  * * Description:
- * This class validates a palindrome using recursion, where the function
- * calls itself to check smaller versions of the original string.
+ * This class handles real-world sentences by ignoring case and removing
+ * spaces/special characters before performing the palindrome check.
  * * At this stage, the application:
- * - Uses a recursive method to compare start and end characters
- * - Defines a base condition to terminate recursion
- * - Utilizes the JVM Call Stack for method execution
+ * - Normalizes input using Regular Expressions (Regex)
+ * - Converts all characters to lowercase
+ * - Performs validation on the "cleaned" string
  * * @author Coder-015
- * @version 9.0
+ * @version 10.0
  */
 public class App {
 
     /**
-     * Application entry point for UC9.
+     * Application entry point for UC10.
      * * @param args Command-line arguments
      */
     public static void main(String[] args) {
-        // Define the input string
-        String input = "deified";
+        // Define the input string with spaces and mixed case
+        String input = "A man a plan a canal Panama";
 
-        // Call the recursive function
-        boolean isPalindrome = isPalindromeRecursive(input, 0, input.length() - 1);
+        // Normalize the string:
+        // 1. Replace all non-alphanumeric characters with an empty string
+        // 2. Convert the result to lowercase
+        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        // Display the result
-        System.out.println("Input : " + input);
+        boolean isPalindrome = checkPalindrome(normalized);
+
+        // Display the results
+        System.out.println("Original Input : " + input);
+        System.out.println("Normalized     : " + normalized);
         System.out.println("Is Palindrome? : " + isPalindrome);
     }
 
     /**
-     * Recursive method to check if a string is a palindrome.
-     * Recursive call compares start & end characters.
+     * Standard two-pointer validation logic
      */
-    private static boolean isPalindromeRecursive(String str, int start, int end) {
-        // Base condition: if pointers cross, it's a palindrome
-        if (start >= end) {
-            return true;
-        }
+    private static boolean checkPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
 
-        // Check if characters at current positions match
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
         }
-
-        // Recursive call: move pointers inward
-        return isPalindromeRecursive(str, start + 1, end - 1);
+        return true;
     }
 }
