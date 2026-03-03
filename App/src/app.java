@@ -1,61 +1,54 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
- * ==========================================================
- *  MAIN CLASS - UseCase5PalindromeCheckerApp
- * ==========================================================
- *
- * Use Case 5: Stack Based Palindrome Checker
- *
- * Description:
- * This class validates a palindrome using a Stack
- * data structure which follows the LIFO principle.
- *
- * Application Flow:
- * - Pushes characters into a stack
- * - Pops them in reverse order
- * - Compares with original sequence
- * - Displays the result
- *
- * @author Coder-015
- * @version 5.0
+ * =============================================================================
+ * MAIN CLASS - UseCase6PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 6: Queue + Stack Fairness Check
+ * * Description:
+ * This class demonstrates palindrome validation using
+ * two different data structures to show FIFO vs LIFO behaviors.
+ * * At this stage, the application:
+ * - Enqueues characters into a Queue (FIFO)
+ * - Pushes characters into a Stack (LIFO)
+ * - Compares dequeue vs pop outputs
+ * * If all characters match, the input is a palindrome.
+ * * @author Coder-015
+ * @version 6.0
  */
-
 public class App {
 
     /**
-     * Application entry point for UC5.
-     * @param args Command-line arguments
+     * Application entry point for UC6.
+     * * @param args Command-line arguments
      */
     public static void main(String[] args) {
 
-        // Declare and initialize the input string
-        String input = "noon";
+        String input = "civic";
 
-        // Create a Stack to store characters
+        Queue<Character> queue = new LinkedList<>();
+
+
         Stack<Character> stack = new Stack<>();
 
-        // Push each character of the string into the stack
         for (char c : input.toCharArray()) {
+            queue.add(c);
             stack.push(c);
         }
 
-        // Assume palindrome initially
         boolean isPalindrome = true;
 
-        // Iterate again through original string
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+        while (!queue.isEmpty()) {
+            if (!queue.remove().equals(stack.pop())) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // Display result
-        if (isPalindrome) {
-            System.out.println(input + " is a Palindrome.");
-        } else {
-            System.out.println(input + " is NOT a Palindrome.");
-        }
+        //  Display results
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
