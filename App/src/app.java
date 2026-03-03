@@ -1,20 +1,63 @@
-public class app {
-    public static boolean isPalindrome(String s) {
-   // Create a StringBuilder with the original string
-       StringBuilder reversed = new StringBuilder(s);
-       // Reverse the StringBuilder and convert it back to a String
-        reversed.reverse();
-        String reversedString = reversed.toString();
-        // Compare the original string with the reversed one
-        // Use equals() for case-sensitive comparison, or equalsIgnoreCase() for case-insensitive
-        return s.equals(reversedString);
+import java.util.*;
+
+/**
+ * =============================================================================
+ * STRATEGY INTERFACE
+ * =============================================================================
+ */
+interface PalindromeStrategy {
+    boolean isValid(String input);
+}
+
+/**
+ * STRATEGY 1: Stack-Based
+ */
+class StackStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : input.toCharArray()) stack.push(c);
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) return false;
+        }
+        return true;
     }
+}
 
+/**
+ * STRATEGY 2: Two-Pointer / Array-Based
+ */
+class ArrayStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        int start = 0, end = input.length() - 1;
+        while (start < end) {
+            if (input.charAt(start++) != input.charAt(end--)) return false;
+        }
+        return true;
+    }
+}
+
+/**
+ * =============================================================================
+ * MAIN CLASS - UseCase12PalindromeCheckerApp
+ * =============================================================================
+ * * Use Case 12: Strategy Pattern (Advanced)
+ * * Description: Demonstrates switching algorithms dynamically at runtime.
+ * * @author Coder-015
+ * @version 12.0
+ */
+public class App {
     public static void main(String[] args) {
-        String testString1 = "madam";
-        String testString2 = "world";
+        String word = "kayak";
 
-        System.out.println(testString1 + " is a palindrome: " + isPalindrome(testString1));
-        System.out.println(testString2 + " is a palindrome: " + isPalindrome(testString2));
+        // Context decides which strategy to use at runtime
+        PalindromeStrategy strategy;
+
+        // Using Stack Strategy
+        strategy = new StackStrategy();
+        System.out.println("Using Stack: " + strategy.isValid(word));
+
+        // Switching to Array Strategy dynamically
+        strategy = new ArrayStrategy();
+        System.out.println("Using Array: " + strategy.isValid(word));
     }
 }
